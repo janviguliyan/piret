@@ -114,7 +114,7 @@ const Page = () => {
     // const plainText = 'Chat pe soya tha behnoi';  // Replace with your plain text
     try {
       // const r = await axios.post("https://4ba3-2406-b400-71-d2dc-3d32-9ba8-4b39-ec6c.ngrok-free.app/redact/", formData)
-      const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
+      const r = await axios.post("http://13.200.27.54:8182/process-text", JsonData)
       const data = r.data;
       setRedactedText(data.redacted_text);
       setImage(data.image);

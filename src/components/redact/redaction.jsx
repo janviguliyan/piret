@@ -89,11 +89,11 @@ const RedactionComponent = () => {
     let JsonData;
     if (selectedOption === 'image' && base64Image) {
       const encryptedText = encryptData(base64Image, secretKey);
-    //   JsonData={text: '',
-    //     image: encryptedText,
-    //     filters: selectedFilters
-    //   }
-    Json={text:''}
+      JsonData={text: '',
+        image: encryptedText,
+        filters: selectedFilters
+      }
+    // Json={text:''}
       if (!encryptedText) {
         setIsLoading(false);
         setRedactedText("Encryption failed due to missing secret key.");
