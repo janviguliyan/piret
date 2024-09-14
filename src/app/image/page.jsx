@@ -138,7 +138,8 @@ function AuthContent() {
     // const plainText = 'Chat pe soya tha behnoi';  // Replace with your plain text
     try {
       // const r = await axios.post("https://4ba3-2406-b400-71-d2dc-3d32-9ba8-4b39-ec6c.ngrok-free.app/redact/", formData)
-      const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
+      // const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
+      const r = await axios.post("https://127.0.0.1:8000/redact", JsonData)
       const data = r.data;
       setRedactedText(data.redacted_text);
       setImage(data.image);
