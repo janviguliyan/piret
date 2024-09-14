@@ -8,7 +8,7 @@ const RedactionComponent = () => {
     const [text, setText] = useState('');
     const [base64Image, setbase64Image] = useState('');
     const [image, setImage] = useState(null);
-    const [redactedText, setRedactedText] = useState('');
+    const [RedactedText, setRedactedText] = useState('');
     const [isCopied, setIsCopied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFilters, setSelectedFilters] = useState([]);
@@ -106,7 +106,7 @@ const RedactionComponent = () => {
     //     image: '',
     //     filters: selectedFilters
     //   }
-    JsonData={text: encryptedText}
+    JsonData={text: text}
       if (!encryptedText) {
         setIsLoading(false);
         setRedactedText("Encryption failed due to missing secret key.");
@@ -116,11 +116,14 @@ const RedactionComponent = () => {
     // const plainText = 'Chat pe soya tha behnoi';  // Replace with your plain text
     try {
       // const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
-      const r = await axios.post("http://13.200.27.54:8182/process-text/", JsonData)
-      const data = r.data;
-      setRedactedText(data.redacted_text);
-      setImage(data.image);
-      console.log(data.image);
+      console.log(JsonData)
+      const r = await axios.post("http://13.200.27.54:8182/process-text", JsonData)
+      console.log("data is "+r.data)
+    //   const data = r.processed_text;
+      setRedactedText(r.data);
+    //   console.log(data)
+    //   setImage(data.image);
+    //   console.log(data.image);
     } catch (error) {
       console.error("Error redacting text:", error);
       setRedactedText("An error occurred while redacting the text.");
@@ -136,7 +139,7 @@ const RedactionComponent = () => {
     try {
       if (selectedOption === 'text') {
         // Copy text to clipboard
-        await navigator.clipboard.writeText(redactedText);
+        await navigator.clipboard.writeText(RedactedText);
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000);
       } else if (selectedOption === 'image') {
@@ -235,7 +238,7 @@ const RedactionComponent = () => {
           <div className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg relative">
             {((selectedOption === 'text') && !isLoading)? (
               <div className="bg-gray-700 border border-gray-300 p-4 rounded-md shadow-md text-gray-700">
-                <p className="text-white font-mono break-all">{redactedText || 'Redacted text will appear here...'}</p>
+                <p className="text-white font-mono break-all">{RedactedText || 'Redacted text will appear here...'}</p>
               </div>
             ) : ((selectedOption === 'image') && !isLoading) ? (
               <div className="bg-gray-700 border border-gray-300 p-4 rounded-md shadow-md">
@@ -248,7 +251,7 @@ const RedactionComponent = () => {
             ) : (
               <p className="text-white font-mono break-all">Redacted Data will appear here...</p>
             )}
-            {(redactedText || image )&& (
+            {(RedactedText || image )&& (
               <button
                 onClick={copyToClipboard}
                 className="absolute top-2 right-2 p-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
