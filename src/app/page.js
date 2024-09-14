@@ -27,17 +27,6 @@ export default function RedactLanding() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  // const copyToClipboard = useCallback(() => {
-  //   navigator.clipboard.writeText(redactedText).then(() => {
-  //     setIsCopied(true)
-  //     toast({
-  //       title: "Copied!",
-  //       description: "The redacted text has been copied to your clipboard.",
-  //     })
-  //     setTimeout(() => setIsCopied(false), 2000)
-  //   })
-  // }, [redactedText, toast])
-
   const handleNameMouseMove = useCallback((e) => {
     if (nameRef.current) {
       const rect = nameRef.current.getBoundingClientRect()
