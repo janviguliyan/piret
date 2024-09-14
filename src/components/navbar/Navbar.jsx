@@ -14,19 +14,21 @@ const Navbar = () => {
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
-                <div className="flex items-center pt-2 pb-2">
-                  <Image
-                    src="/logo1.png"
-                    alt="Logo"
-                    layout="intrinsic"
-                    width={60} 
-                    height={20} 
-                    className="object-contain"
-                  />
+              <Link href={"/"}>
+                <div className="flex-shrink-0 flex items-center">
+                  <div className="flex items-center pt-2 pb-2">
+                    <Image
+                      src="/logo1.png"
+                      alt="Logo"
+                      layout="intrinsic"
+                      width={60} 
+                      height={20} 
+                      className="object-contain"
+                    />
+                  </div>
+                  <span className="ml-2 text-xl font-bold text-white">PIReT</span>
                 </div>
-                <span className="ml-2 text-xl font-bold text-white">PIReT</span>
-              </div>
+              </Link>
             </div>
             <div className="-mr-2 flex items-center">
               <button

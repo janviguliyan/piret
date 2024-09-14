@@ -271,3 +271,26 @@
       transform: translate(-50%, -50%) rotate(0deg);
     }
   }
+
+  .team{
+    margin-top: 4rem;
+  }
+
+  .teamTitle{
+    text-align: center;
+    margin-bottom: 4rem;
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+
+  .teamCard{
+    display: flex;
+    justify-content: center;
+    /* grid-template-columns: auto auto auto auto; */
+    gap: 1rem;
+  }
+
+  .card{
+    min-width: 5rem;
+    max-width: 5rem;
+  }

@@ -8,8 +8,7 @@ import Problem from "../components/problem/problem";
 import RedactionComponent from '../components/redact/redaction';
 import ImageFeat from "../components/imgfeat/imgfeat";
 import DocFeat from "../components/docfeat/docfeat";
-
-
+import TeamCard from "../components/team/team";
 
 import styles from "../app/page.module.css"
 import Image from 'next/image';
@@ -127,6 +126,45 @@ export default function RedactLanding() {
         <ImageFeat />
         <div className={styles.styleDiv1}></div>
         <DocFeat />
+        <div className={styles.styleDiv1}></div>
+        <div className={styles.team}>
+          <h2 className={styles.teamTitle}>Meet Our Team</h2>
+          <div className={styles.teamCard}>
+            <TeamCard 
+              name={'Aryan Mathur'} 
+              role={'Data Scientist'} 
+              img={'/am.jpg'} 
+              likedin={"https://www.linkedin.com/in/mathur-aryan/"}
+              twitter={""}
+              className={styles.card} 
+            />
+            <TeamCard 
+              name={'Bhagyansh'} 
+              role={'Backend Devloper'} 
+              img={'/bb.jpg'} 
+              likedin={"https://www.linkedin.com/in/bhagyansh-bhargava/"}
+              twitter={""}
+              className={styles.card} 
+            />
+            <TeamCard 
+              name={'Janvi Guliyan'} 
+              role={'Design Engineer'} 
+              img={'/jg.png'} 
+              likedin={"https://www.linkedin.com/in/janvi-guliyan-5bb10023a/"}
+              twitter={"https://twitter.com/imjg_"}
+              className={styles.card} 
+            />
+            <TeamCard 
+              name={'Shivank Jindal'} 
+              role={'Cyber Security Specialist'} 
+              img={'/sj.jpg'} 
+              likedin={""}
+              twitter={""}
+              className={styles.card} 
+            />
+          </div>
+        </div>
+
         <div className={styles.styleDiv1}></div>
       </main>
     </div>
