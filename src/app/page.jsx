@@ -4,8 +4,11 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 import { Search } from 'lucide-react'
 
+import Problem from "../components/problem/problem";
 import RedactionComponent from '../components/redact/redaction';
 import ImageFeat from "../components/imgfeat/imgfeat";
+import DocFeat from "../components/docfeat/docfeat";
+
 
 
 import styles from "../app/page.module.css"
@@ -117,9 +120,13 @@ export default function RedactLanding() {
           </div>
         </div>
         <div className={styles.styleDiv1}></div>
+        <Problem />
+        <div className={styles.styleDiv1}></div>
         <RedactionComponent />
         <div className={styles.styleDiv1}></div>
         <ImageFeat />
+        <div className={styles.styleDiv1}></div>
+        <DocFeat />
         <div className={styles.styleDiv1}></div>
       </main>
     </div>
