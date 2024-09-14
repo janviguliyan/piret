@@ -5,15 +5,15 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 const RedactionComponent = () => {
-  const [text, setText] = useState('');
-  const [base64Image, setbase64Image] = useState('');
-  const [image, setImage] = useState(null);
-  const [redactedText, setRedactedText] = useState('');
-  const [isCopied, setIsCopied] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('text');
+    const [text, setText] = useState('');
+    const [base64Image, setbase64Image] = useState('');
+    const [image, setImage] = useState(null);
+    const [redactedText, setRedactedText] = useState('');
+    const [isCopied, setIsCopied] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedFilters, setSelectedFilters] = useState([]);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('text');
 
   const filters = {
     "PII (Personally Identifiable Information)": ['ACCOUNT_NUMBER', 'AGE', 'DATE', 'DATE_INTERVAL', 'DOB', 'DRIVER_LICENSE', 'DURATION', 'EMAIL_ADDRESS', 'EVENT', 'FILENAME', 'GENDER_SEXUALITY', 'GENDER', 'SEXUALITY', 'HEALTHCARE_NUMBER', 'IP_ADDRESS', 'LANGUAGE', 'LOCATION', 'LOCATION_ADDRESS', 'LOCATION_ADDRESS_STREET', 'LOCATION_CITY', 'LOCATION_COORDINATE', 'LOCATION_COUNTRY', 'LOCATION_STATE', 'LOCATION_ZIP', 'MARITAL_STATUS', 'MONEY', 'NAME', 'NAME_FAMILY', 'NAME_GIVEN', 'NAME_MEDICAL_PROFESSIONAL', 'NUMERICAL_PII', 'ORGANIZATION', 'ORGANIZATION_MEDICAL_FACILITY', 'OCCUPATION', 'ORIGIN', 'PASSPORT_NUMBER', 'PASSWORD', 'PHONE_NUMBER', 'PHYSICAL_ATTRIBUTE', 'POLITICAL_AFFILIATION', 'RELIGION', 'SSN', 'TIME', 'URL', 'USERNAME', 'VEHICLE_ID', 'ZODIAC_SIGN'],
