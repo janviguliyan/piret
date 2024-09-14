@@ -114,7 +114,7 @@ const RedactionComponent = () => {
     // const plainText = 'Chat pe soya tha behnoi';  // Replace with your plain text
     try {
       // const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
-      const r = await axios.post("http://127.0.0.1:8000/redact", JsonData)
+      const r = await axios.post("http://13.200.27.54:8182/process-text/redact", JsonData)
       const data = r.data;
       setRedactedText(data.redacted_text);
       setImage(data.image);
