@@ -89,11 +89,11 @@ const RedactionComponent = () => {
     let JsonData;
     if (selectedOption === 'image' && base64Image) {
       const encryptedText = encryptData(base64Image, secretKey);
-    //   JsonData={text: '',
-    //     image: encryptedText,
-    //     filters: selectedFilters
-    //   }
-    Json={text:''}
+      JsonData={text: '',
+        image: encryptedText,
+        filters: selectedFilters
+      }
+    // Json={text:''}
       if (!encryptedText) {
         setIsLoading(false);
         setRedactedText("Encryption failed due to missing secret key.");
@@ -102,11 +102,12 @@ const RedactionComponent = () => {
     }
     else if (selectedOption === 'text' && text) {
       const encryptedText = encryptData(text, secretKey);
-    //   JsonData={text: encryptedText,
-    //     image: '',
-    //     filters: selectedFilters
-    //   }
-    JsonData={text: text}
+      console.log("we should be here")
+      JsonData={text: encryptedText,
+        image: '',
+        filters: selectedFilters
+      }
+    // JsonData={text: text}
       if (!encryptedText) {
         setIsLoading(false);
         setRedactedText("Encryption failed due to missing secret key.");
@@ -118,11 +119,12 @@ const RedactionComponent = () => {
       // const r = await axios.post("https://d183-223-190-80-150.ngrok-free.app/redact", JsonData)
       console.log(JsonData)
       const r = await axios.post("http://13.200.27.54:8182/process-text", JsonData)
+      const data = r.data
     //   console.log("data is "+r.data)
     //   const data = r.processed_text;
-      setRedactedText(r.data);
+      setRedactedText(r.data.redacted_text);
     //   console.log(data)
-    //   setImage(data.image);
+      setImage(data.image);
     //   console.log(data.image);
     } catch (error) {
       console.error("Error redacting text:", error);
