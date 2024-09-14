@@ -38,10 +38,10 @@ const ImageFeat = () => {
                 <div className={styles.text}>
                     <h2 className={styles.title}>Image Redaction</h2>
                     <p className={styles.titleText}>Detect and remove sensitive visual information. Click the button to use it!</p>
-                    {/* <a href="/image" className={styles.imageButton}>
+                    <a href="/image" className={styles.imageButton}>
                         Try PIReT for images
-                    </a> */}
-                    <button onClick={checkIP} className={styles.imageButton}>Try PIReT for images</button>
+                    </a>
+                    {/* <button onClick={checkIP} className={styles.imageButton}>Try PIReT for images</button> */}
                     {message && <p>{message}</p>} {/* Display message */}
                 </div>
                 <div className={styles.image}>
