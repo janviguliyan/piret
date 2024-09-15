@@ -11,14 +11,19 @@ const DocumentRedaction = () => {
   const [isCopied, setIsCopied] = useState(false);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState(['ACCOUNT_NUMBER', 'AGE', 'DATE', 'DATE_INTERVAL', 'DOB', 'DRIVER_LICENSE', 'DURATION', 'EMAIL_ADDRESS', 'FILENAME', 'IP_ADDRESS', 'LOCATION', 'LOCATION_ADDRESS', 'LOCATION_ADDRESS_STREET', 'LOCATION_CITY', 'LOCATION_COORDINATE', 'LOCATION_COUNTRY', 'LOCATION_STATE', 'LOCATION_ZIP', 'MONEY', 'NAME', 'NAME_FAMILY', 'NAME_GIVEN', 'NAME_MEDICAL_PROFESSIONAL', 'NUMERICAL_PII', 'ORGANIZATION', 'OCCUPATION', 'ORIGIN', 'PASSPORT_NUMBER', 'PASSWORD', 'PHONE_NUMBER', 'SSN', 'URL', 'USERNAME', 'VEHICLE_ID', 'BANK_ACCOUNT', 'CREDIT_CARD', 'CREDIT_CARD_EXPIRATION', 'CVV']);
+  const [encryptedFile, setEncryptedFile] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [uploadStatus, setUploadStatus] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [fileType, setFileType] = useState('');
+  const [base64str, setbase64Str] = useState('');
+  const [base64strImage, setbase64StrImage] = useState('');
+
 
   const filters = {
-    "PII (Personally Identifiable Information)": ['ACCOUNT_NUMBER', 'AGE', 'DATE', 'DATE_INTERVAL', 'DOB', 'DRIVER_LICENSE', 'DURATION', 'EMAIL_ADDRESS', 'EVENT', 'FILENAME', 'GENDER_SEXUALITY', 'GENDER', 'SEXUALITY', 'HEALTHCARE_NUMBER', 'IP_ADDRESS', 'LANGUAGE', 'LOCATION', 'LOCATION_ADDRESS', 'LOCATION_ADDRESS_STREET', 'LOCATION_CITY', 'LOCATION_COORDINATE', 'LOCATION_COUNTRY', 'LOCATION_STATE', 'LOCATION_ZIP', 'MARITAL_STATUS', 'MONEY', 'NAME', 'NAME_FAMILY', 'NAME_GIVEN', 'NAME_MEDICAL_PROFESSIONAL', 'NUMERICAL_PII', 'ORGANIZATION', 'ORGANIZATION_MEDICAL_FACILITY', 'OCCUPATION', 'ORIGIN', 'PASSPORT_NUMBER', 'PASSWORD', 'PHONE_NUMBER', 'PHYSICAL_ATTRIBUTE', 'POLITICAL_AFFILIATION', 'RELIGION', 'SSN', 'TIME', 'URL', 'USERNAME', 'VEHICLE_ID', 'ZODIAC_SIGN'],
-    "PHI (Protected Health Information)": ['BLOOD_TYPE', 'CONDITION', 'DOSE', 'DRUG', 'INJURY', 'MEDICAL_PROCESS', 'STATISTICS'],
-    "PCI (Payment Card Industry)": ['BANK_ACCOUNT', 'CREDIT_CARD', 'CREDIT_CARD_EXPIRATION', 'CVV', 'ROUTING_NUMBER'],
+    "PII (Personally Identifiable Information)": ['ACCOUNT_NUMBER', 'AGE', 'DATE', 'DATE_INTERVAL', 'DOB', 'DRIVER_LICENSE', 'DURATION', 'EMAIL_ADDRESS', 'FILENAME', 'IP_ADDRESS', 'LOCATION', 'LOCATION_ADDRESS', 'LOCATION_ADDRESS_STREET', 'LOCATION_CITY', 'LOCATION_COORDINATE', 'LOCATION_COUNTRY', 'LOCATION_STATE', 'LOCATION_ZIP', 'MONEY', 'NAME', 'NAME_FAMILY', 'NAME_GIVEN', 'NAME_MEDICAL_PROFESSIONAL', 'NUMERICAL_PII', 'ORGANIZATION', 'OCCUPATION', 'ORIGIN', 'PASSPORT_NUMBER', 'PASSWORD', 'PHONE_NUMBER', 'SSN', 'URL', 'USERNAME', 'VEHICLE_ID'],
+    "PCI (Payment Card Industry)": ['BANK_ACCOUNT', 'CREDIT_CARD', 'CREDIT_CARD_EXPIRATION', 'CVV'],
   };
 
   const handleSelectAll = (category) => {
@@ -36,14 +41,65 @@ const DocumentRedaction = () => {
       ]);
     }
   };
-
-  const readFileAsArrayBuffer = (file) => {
+  const fileToBase64w = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
+      reader.onload = () => {
+        const binaryString = Array.from(new Uint8Array(reader.result)).map(byte => String.fromCharCode(byte)).join('');
+        resolve(btoa(binaryString));
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsArrayBuffer(file); // Read as ArrayBuffer
     });
+  };
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const binaryString = Array.from(new Uint8Array(reader.result)).map(byte => String.fromCharCode(byte)).join('');
+        resolve(btoa(binaryString));
+        return binaryString;
+      };
+      // reader.onerror = (error) => reject(error);
+      // reader.readAsArrayBuffer(file); // Read as ArrayBuffer
+    });
+  };
+
+  // const readFileAsArrayBuffer = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = reject;
+  //     reader.readAsArrayBuffer(file);
+  //   });
+  // };
+  const readFileAsArrayBuffer = async (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'application/msword') {
+      setFileName(file.name);
+        // Convert the file to Base64
+        const base64File = await fileToBase64(file);
+
+        // Encrypt the Base64 file using AES
+        const secretKey = '1234567890123456'; // Replace with your own key
+        const encrypted = CryptoJS.AES.encrypt(base64File, secretKey).toString();
+
+        setEncryptedFile(encrypted);
+    }
   };
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
@@ -54,31 +110,31 @@ const DocumentRedaction = () => {
     );
   };
 
-  function encryptData(data, secretKey) {
-    const iv = CryptoJS.lib.WordArray.random(16);
-    const encrypted = CryptoJS.AES.encrypt(CryptoJS.lib.WordArray.create(data), CryptoJS.enc.Utf8.parse(secretKey), {
-      iv: iv,
-      padding: CryptoJS.pad.Pkcs7,
-      mode: CryptoJS.mode.CBC
-    });
-    return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
-  }
+  // function encryptData(data, secretKey) {
+  //   const iv = CryptoJS.lib.WordArray.random(16);
+  //   const encrypted = CryptoJS.AES.encrypt(CryptoJS.lib.WordArray.create(data), CryptoJS.enc.Utf8.parse(secretKey), {
+  //     iv: iv,
+  //     padding: CryptoJS.pad.Pkcs7,
+  //     mode: CryptoJS.mode.CBC
+  //   });
+  //   return CryptoJS.enc.Base64.stringify(iv.concat(encrypted.ciphertext));
+  // }
 
   const redact = async () => {
     setIsLoading(true);
     const secretKey = '1234567890123456';  // AES-128 requires a 16-byte key
 
     try {
-      const arrayBuffer = await readFileAsArrayBuffer(file);
-      const encryptedData = encryptData(arrayBuffer, secretKey);
+      // const arrayBuffer = await readFileAsArrayBuffer(file);
 
       const jsonData = {
-        file: encryptedData,
-        fileType: fileType,
+        text:"",
+        image:"",
+        docx:base64strImage,
         filters: selectedFilters
       };
 
-      const response = await axios.post("https://your-api-endpoint.com/redact", jsonData);
+      const response = await axios.post("http://13.200.27.54:8182/process-text", jsonData);
       const data = response.data;
 
       if (fileType === 'image/png' || fileType === 'image/jpeg') {
@@ -133,9 +189,10 @@ const DocumentRedaction = () => {
   
       try {
         // Await the result of the Promise that resolves the base64 string
-        const base64Str = await readFileAsDataURL(file);
-        setbase64Image(base64Str);
-        console.log("Word file in text (base64):", base64Str);
+        // const base64Str = fileToBase64(file);
+        const f =  await fileToBase64w(selectedFile);
+        setbase64StrImage(f);
+        // console.log("Word file in text (base64):", base64Str);
       } catch (error) {
         console.error("Error reading file:", error);
       }

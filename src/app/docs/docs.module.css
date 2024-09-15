@@ -74,12 +74,20 @@
     background-color: #6b7280;
   }
   
-  .filterOverlay {
+  /* .filterOverlay {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
     z-index: 40;
+  } */
+
+  .filterOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 10;
   }
   
   .filterContent {
@@ -208,4 +216,74 @@
   .copyIcon {
     width: 1.25rem;
     height: 1.25rem;
+  }
+
+  .filterMenu {
+    position: relative;
+    /* background-color: #1f2937c8; */
+    background-color: rgba(2, 1, 29, 0.5);
+    border: 2px solid #4b5563;
+    border-radius: 0.5rem;
+    box-shadow: 0px 10px 15px rgba(5, 1, 33, 0.3);
+    padding: 1rem;
+    z-index: 20;
+    max-height: 20rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .filterMenu {
+      top: -20rem;
+      left: -10rem;
+      flex-direction: row;
+      column-gap: 2.5rem;
+    }
+  }
+  
+  
+  .filterCategory {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .filterCategoryHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filterCategoryTitle {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+  
+  .filterOption {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .filterCheckbox {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #808795;
+    border-radius: 0.25rem;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .filterCheckbox:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+  }
+  
+  .filterLabel {
+    color: #bcc1c9;
+    font-size: 0.9rem;
   }
