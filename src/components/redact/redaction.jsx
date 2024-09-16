@@ -105,6 +105,7 @@ const RedactionComponent = () => {
       console.log("we should be here")
       JsonData={text: encryptedText,
         image: '',
+        docx:"",
         filters: selectedFilters
       }
     // JsonData={text: text}

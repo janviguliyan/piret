@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from '../components/footer/footer'
 import Navbar from '../components/navbar/Navbar'
+import { Analytics } from "@vercel/analytics/react"
 import { dark } from "@clerk/themes";
 import {
   ClerkProvider,
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
               <Navbar />
                 {children}
+                <Analytics />
                 <Footer />
         </body>
       </html>
